@@ -14,7 +14,7 @@ import (
 const (
 	PID_CLEAN_INTERVAL = 60
 
-	PID_PROC_PATH = "/proc/%s/stat"
+	PID_PROC_PATH = "%s/%s/stat"
 )
 
 type ProcCpuInfo struct {
@@ -58,7 +58,7 @@ func MoniPidCpu(pid string) {
 }
 
 func getProcCpuUsage(pid string) error {
-	path := fmt.Sprintf(PID_PROC_PATH, pid)
+	path := fmt.Sprintf(PID_PROC_PATH, procinfo.PROC_BASE_DIR, pid)
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err

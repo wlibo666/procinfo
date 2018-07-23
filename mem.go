@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	PROC_MEMINFO = "/proc/meminfo"
+	PROC_MEMINFO = "%s/meminfo"
 )
 
 var (
@@ -32,7 +32,7 @@ func DisableSysMem() {
 }
 
 func getMemInfo() error {
-	fp, err := os.OpenFile(PROC_MEMINFO, os.O_RDONLY, 0444)
+	fp, err := os.OpenFile(fmt.Sprintf(PROC_MEMINFO, PROC_BASE_DIR), os.O_RDONLY, 0444)
 	if err != nil {
 		return err
 	}

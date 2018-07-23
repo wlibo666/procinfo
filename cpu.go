@@ -14,9 +14,9 @@ import (
 
 const (
 	// get cpu usage from PROC_CPU
-	PROC_CPU = "/proc/stat"
+	PROC_CPU = "%s/stat"
 	// get cpu number from PROC_CPUINFO
-	PROC_CPUINFO = "/proc/cpuinfo"
+	PROC_CPUINFO = "%s/cpuinfo"
 )
 
 type CpuUsage struct {
@@ -56,7 +56,7 @@ func DisableSysCpuMonitor() {
 }
 
 func getCpuCnt() (int, error) {
-	content, err := ioutil.ReadFile(PROC_CPUINFO)
+	content, err := ioutil.ReadFile(fmt.Sprintf(PROC_CPUINFO, PROC_BASE_DIR))
 	if err != nil {
 		return 0, err
 	}
@@ -64,7 +64,7 @@ func getCpuCnt() (int, error) {
 }
 
 func getCpuUsage() (*CpuUsage, error) {
-	fp, err := os.OpenFile(PROC_CPU, os.O_RDONLY, 0444)
+	fp, err := os.OpenFile(fmt.Sprintf(PROC_CPU, PROC_BASE_DIR), os.O_RDONLY, 0444)
 	if err != nil {
 		return nil, err
 	}

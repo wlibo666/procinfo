@@ -22,7 +22,7 @@ func TestGetCpuUsageRate(t *testing.T) {
 }
 
 func TestGetCpuInfo(t *testing.T) {
-	fp, err := os.OpenFile(PROC_CPU, os.O_RDONLY, 0444)
+	fp, err := os.OpenFile(fmt.Sprintf(PROC_CPU, PROC_BASE_DIR), os.O_RDONLY, 0444)
 	if err != nil {
 		t.Fatalf("open failed,err:%s\n", err.Error())
 	}

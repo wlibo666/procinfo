@@ -9,11 +9,13 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/wlibo666/procinfo"
 )
 
 const (
-	PROC_DIR     = "/proc/%s"
-	PROC_CMDLINE = "/proc/%s/cmdline"
+	PROC_DIR     = "%s/%s"
+	PROC_CMDLINE = "%s/%s/cmdline"
 )
 
 var (
@@ -34,7 +36,7 @@ func GetPidCmdline(pid string) (string, error) {
 	if ok {
 		return value.(string), nil
 	}
-	path := fmt.Sprintf(PROC_CMDLINE, pid)
+	path := fmt.Sprintf(PROC_CMDLINE, procinfo.PROC_BASE_DIR, pid)
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		return "", err
@@ -56,7 +58,7 @@ func init() {
 			}
 			time.Sleep(PID_CLEAN_INTERVAL * time.Second)
 			ProcCmdlines.Range(func(key, value interface{}) bool {
-				dir := fmt.Sprintf(PROC_DIR, key.(string))
+				dir := fmt.Sprintf(PROC_DIR, procinfo.PROC_BASE_DIR, key.(string))
 				_, err := os.Stat(dir)
 				if err == os.ErrNotExist {
 					ProcCmdlines.Delete(key)

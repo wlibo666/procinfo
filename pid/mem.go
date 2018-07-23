@@ -8,10 +8,12 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/wlibo666/procinfo"
 )
 
 const (
-	PROC_PID_MEM = "/proc/%s/status"
+	PROC_PID_MEM = "%s/%s/status"
 )
 
 type ProcMemInfo struct {
@@ -32,7 +34,7 @@ func DisablePidMemMonitor() {
 }
 
 func getPidMemInfo(pid string) (*ProcMemInfo, error) {
-	path := fmt.Sprintf(PROC_PID_MEM, pid)
+	path := fmt.Sprintf(PROC_PID_MEM, procinfo.PROC_BASE_DIR, pid)
 	fp, err := os.OpenFile(path, os.O_RDONLY, 0444)
 	if err != nil {
 		return nil, err
